@@ -104,3 +104,59 @@ CREATE TABLE orders (
   drink varchar(50),
   order_total decimal(4,2) NOT NULL
 );
+
+# SQL Book 'Your first Database: Scheme' exercises pt3
+
+# 1.
+\c encyclopedia
+ALTER TABLE famous_people
+  RANAME TO celebrities;
+
+# 2.
+ALTER TABLE celebrities
+  RENAME COLUMN name TO first_name;
+
+ALTER TABLE celebrities
+  ALTER COLUMN first_name TYPE varchar(80);
+
+# 3.
+ALTER TABLE celebrities
+  ADD COLUMN last_name
+  varchar(100)
+  NOT NULL;
+
+# 4.
+ALTER TABLE celebrities
+  ALTER COLUMN date_of_birth TYPE date
+    USING date_of_birth::date,
+  ALTER COLUMN date_of_birth SET NOT NULL;
+
+# 5.
+ALTER TABLE animals
+  RENAME COLUMN max_weight_lbs TO max_weight_kgs;
+
+ALTER TABLE animals
+  ALTER COLUMN max_weight_kgs TYPE decimal(10,4);
+
+# 6.
+ALTER TABLE animals
+  ADD CONSTRAINT unique_binomial_name UNIQUE
+  (binomial_name);
+
+# 7.
+
+\c ls_burger
+
+ALTER TABLE orders
+  ADD COLUMN customer_email varchar(50),
+  ADD COLUMN customer_loyalty_points integer DEFAULT 0;
+
+# 8.
+
+ALTER TABLE orders
+  ADD COLUMN burger_cost decimal(4,2) DEFAULT 0,
+  ADD COLUMN side_cost decimal(4,2) DEFAULT 0,
+  ADD COLUMN drink_cost decimal(4,2) DEFAULT 0;
+
+# 9.
+ALTER TABLE orders DROP COLUMN order_total
