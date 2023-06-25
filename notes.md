@@ -160,3 +160,70 @@ ALTER TABLE orders
 
 # 9.
 ALTER TABLE orders DROP COLUMN order_total
+
+# SQL Book 'Your first Database: Data' exercises pt1
+
+# 1.
+\c encyclopedia
+INSERT INTO countries (name, capital, population)
+('France', 'Paris', 67158000);
+
+# 2.
+INSERT INTO countries (name, capital, population)
+VALUES
+  ('USA', 'Washington D.C.', 325365189),
+  ('Germany', 'Berlin', 82349400),
+  ('Japan, 'Tokyo', 126672000);
+
+# 3.
+INSERT INTO celebrities (first_name, last_name, date_of_birth, occupation, deceased)
+VALUES ('Bruce', 'Springsteen', '1949-09-23', 'singer, Songwriter', false);
+
+# 4.
+INSERT INTO celebrities (first_name, last_name, date_of_birth, occupation)
+VALUES ('Scarlet', 'Johansson', '1984-11-22', 'Actress')
+
+# 5.
+INSERT INTO celebrities (first_name, last_name, occupation, date_of_birth, deceased)
+VALUES ('Frank', 'Sinatra', 'Singer, Actor', '1915-12-12', true),
+       ('Tom', 'Cruise', 'Actor', '1962-7-3', DEFAULT); 
+
+# 6.
+Error as we need to provide a value for 'last_name'.
+
+Check the schema for celebrities using the `\d` metecommand.
+
+# 7.
+
+ALTER TABLE celebrities
+  ALTER COLUMN last_name DROP NOT NULL;
+
+INSERT INTO celebrities (first_name, occupation, date_of_birth, deceased)
+  VALUES ('Madona', 'Signer, Actress', '1958-08-16', false),
+         ('Prince', 'Singer, Songwriter, Musician, Actor', '1958-06-07', true);
+
+# 8.
+Even though the 'deceased' column is a boolean with a default value of `false`, as we have not specified a 'NOT NULL' constraint, PostgreSQL will actually set the value to `null`.
+
+Generally, we want to avoid boolean columns being able to have NULL values, since booleans by their nature should only have two states of true or false.
+
+# 9.
+ALTER TABLE animals
+  DROP CONSTRAINT unique_binomial_name;
+
+INSERT INTO animals (name, binomial_name, max_weight_kgs, max_age_years, conservation_status)
+VALUES ('Dove', 'Columbidae Columbiformes', 2, 15, 'LC'),
+       ('Golden Eagle', 'Aquila Chrysaetos', 6.35, 24, 'LC'),
+       ('Peregrine Falcon', 'Falco Peregrinus', 1.5, 15, 'LC'),
+       ('Pigeon', 'Columbidae Columbiformes', 2, 15, 'LC'),
+       ('Kakapo', 'Strigops habroptila', 4, 60,'CR');
+
+# 10.
+
+\c ls_burger
+
+INSERT INTO orders (customer_name, customer_email, burger, side, drink, customer_loyalty_points, burger_cost, side_cost, drink_cost)
+VALUES ('James Bergman', 'james1998@email.com', 'LS Chicken Burger', 'Fries', 'Cola', 28, 4.50, .99, 1.50),
+       ('Natasha O''Shea', 'natasha@osheafamily.com', 'LS Cheeseburger', 'Fries', null, 18, 3.50, .99, 0),
+       ('Natasha O''Shea', 'natasha@osheafamily.com', 'LS Double Deluxe Burger', 'Onion Rings', 'Chocolate Shake', 42, 6.00, 1.50, 2.00),
+       ('Aaron Muller', null, 'LS Burger', null, null, 10, 3.00, 0, 0);
