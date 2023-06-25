@@ -304,3 +304,63 @@ OR side IS NULL;
 SELECT burger, side, drink FROM orders
 WHERE side IS NOT NULL
 AND drink IS NOT NULL;
+
+# SQL Book 'Your first Database: Data' exercises pt3
+
+# 1.
+SELECT * FROM countries LIMIT 1;
+
+# 2.
+SELECT name FROM countries
+ORDER BY population DESC
+LIMIT 1;
+
+# 3.
+SELECT name FROM countries
+ORDER BY population DESC
+LIMIT 1 OFFSET 1;
+
+# 4.
+SELECT DISTINCT binomial_name FROM animals;
+
+# 5.
+SELECT binomial_name FROM animals
+ORDER BY length(binomial_name) DESC
+LIMIT 1;
+
+# 6.
+SELECT first_name FROM celebrities
+WHERE date_part('year', date_of_birth) = '1958';
+
+# 7.
+SELECT max_age_years FROM animals
+ORDER BY max_age_years DESC
+LIMIT 1;
+
+OR 
+
+SELECT max(max_age_years) FROM animals;
+
+# 8.
+SELECT avg(max_weight_kgs) FROM animals;
+
+# 9.
+SELECT count(id) FROM countries;
+# Or any column name for this query.
+
+# 10.
+SELECT sum(population) FROM countries;
+
+# 11.
+SELECT conservation_status, count(name) 
+FROM animals 
+GROUP BY conservation_status;
+
+# 12.
+SELECT avg(burger_cost) FROM orders WHERE side = 'Fries';
+
+# 13.
+SELECT min(side_cost) FROM orders WHERE side IS NOT NULL;
+
+# 14.
+SELECT side, count(id) FROM orders WHERE side = 'Fries' OR side = 'Onion Rings' GROUP BY side;
