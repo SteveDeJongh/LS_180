@@ -227,3 +227,80 @@ VALUES ('James Bergman', 'james1998@email.com', 'LS Chicken Burger', 'Fries', 'C
        ('Natasha O''Shea', 'natasha@osheafamily.com', 'LS Cheeseburger', 'Fries', null, 18, 3.50, .99, 0),
        ('Natasha O''Shea', 'natasha@osheafamily.com', 'LS Double Deluxe Burger', 'Onion Rings', 'Chocolate Shake', 42, 6.00, 1.50, 2.00),
        ('Aaron Muller', null, 'LS Burger', null, null, 10, 3.00, 0, 0);
+       
+# SQL Book 'Your first Database: Data' exercises pt2
+
+# 1.
+
+SELECT population
+FROM countires
+WHERE name = 'USA'; # Or could use name LIKE 'USA';
+
+# 2.
+
+SELECT population, capital
+FROM countries;
+
+# 3.
+SELECT name
+FROM countries
+ORDER BY name;
+
+# 4.
+SELECT name, capital FROM countries ORDER BY population;
+
+# 5.
+SELECT name, capital FROM countries ORDER BY population DESC;
+
+# 6.
+SELECT name, binomial_name, max_weight_kgs, max_age_years
+FROM animals
+ORDER BY max_age_years, max_weight_kgs, name DESC;
+
+# 7.
+SELECT name FROM countries WHERE population > 70000000;
+
+# 8.
+SELECT name FROM countries WHERE population > 70000000 AND population < 200000000;
+
+# 9.
+SELECT first_name, last_name FROM celebrities WHERE deceased <> true OR deceased IS NULL;
+
+# 10.
+SELECT first_name, last_name FROM celebrities WHERE occupation ILIKE '%singer%';
+
+# 11.
+SELECT first_name, last_name FROM celebrities WHERE occupation ILIKE '%Actor%' OR occupation ILIKE '%actress%';
+
+# 12.
+SELECT first_name, last_name FROM celebrities WHERE (occupation ILIKE '%actor%' OR occupation ILIKE '%actress%')
+AND occupation ILIKE '%singer%';
+
+# 13.
+SELECT burger FROM orders
+WHERE burger IS NOT NULL
+  AND  burger_cost < 5.00
+ORDER BY burger_cost;
+
+# 14.
+SELECT customer_name, customer_email, customer_loyalty_points FROM orders
+WHERE customer_loyalty_points >= 20
+ORDER BY customer_loyalty_points DESC;
+
+# 15.
+SELECT burger FROM orders
+WHERE customer_name = 'Natasha O''Shea';
+
+# 16.
+SELECT customer_name FROM orders
+WHERE drink IS NULL;
+
+# 17.
+SELECT burger, side, drink FROM orders
+WHERE side != 'Fries'
+OR side IS NULL;
+
+# 18.
+SELECT burger, side, drink FROM orders
+WHERE side IS NOT NULL
+AND drink IS NOT NULL;
