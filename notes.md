@@ -364,3 +364,86 @@ SELECT min(side_cost) FROM orders WHERE side IS NOT NULL;
 
 # 14.
 SELECT side, count(id) FROM orders WHERE side = 'Fries' OR side = 'Onion Rings' GROUP BY side;
+
+# SQL Book 'Your first Database: Data' exercises pt4
+
+# 1.
+\c encyclopedia
+ALTER TABLE animals
+  ADD COLUMN class varchar(100);
+
+UPDATE animals SET class='Aves';
+
+# 2.
+ALTER TABLE animals
+  ADD COLUMN phylum varchar(100),
+  ADD COLUMN kingdom varchar(100);
+
+UPDATE animals SET
+  phylum='Chordata',
+  kingdom='Animalia';
+
+# 3.
+ALTER TABLE countries
+  ADD COLUMN continent varchar(50);
+
+UPDATE countries
+  SET continent='Europe'
+  WHERE name = 'France' OR name = 'Germany';
+
+UPDATE countries
+  SET continent='Asia'
+  WHERE name = 'Japan';
+
+UPDATE countries
+  SET continent='North America'
+  WHERE name = 'USA';
+
+# 4.
+UPDATE celebrities
+  SET deceased = true
+  WHERE first_name = 'Elvis';
+
+ALTER TABLE celebrities
+  ALTER COLUMN deceased
+  SET NOT NULL;
+
+# 5.
+DELETE FROM celebrities
+WHERE first_name = 'Tom' AND last_name = 'Cruise';
+
+# 6.
+ALTER TABLE celebrities
+  RENAME TO singers;
+
+DELETE FROM singers
+WHERE occupation NOT LIKE '%singer%' OR occupation NOT LIKE '%Signer%'
+
+INSERT INTO singers (id, first_name, occupation, date_of_birth, deceased, last_name)
+VALUES (1, 'Bruce', 'Singer', '1949-09-23', false, 'Springsteen'),
+       (2, 'Scarlet', 'Actress', '1984-11-22', false, 'Johansson'),
+       (3, 'Frank', 'Singer, Actor', '1915-12-12', true, 'Sinatra'),
+       (5, 'Madona', 'Signer, Actress', '1958-08-16', false, ''),
+       (6, 'Prince', 'Singer, Songwriter, Musician, Actor', '1958-06-07', false, ''),
+       (7, 'Elvis', 'Singer, Musician, Actor', '1935-01-08', false, 'Presley');
+
+# 7.
+DELETE FROM countries;
+
+# 8.
+\c ls_burger
+UPDATE orders
+SET drink='Lemonade'
+WHERE customer_name = 'James Bergman'; # or id = 1;
+
+# 9.
+UPDATE orders
+SET side='Fries',
+side_cost=0.99,
+customer_loyalty_points= 31
+WHERE id=4;
+
+# 10.
+UPDATE orders
+SET side_cost=1.20
+WHERE side='Fries';
