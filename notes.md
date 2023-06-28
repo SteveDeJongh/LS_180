@@ -749,3 +749,22 @@ t or f
 
 # 7.
 SELECT trunc(4 * pi() * 26.3 ^ 2);
+
+# PostgreSQL Data Type Practice Problems
+
+# 1.
+The `text` datatype is not part of the standard SQL library. It is a datatype that allows for any length of text to be entered. In comparison to varchar(limit), where we allow a string of characters up to `limit` amount.
+
+# 2.
+`Integer` allows only whole numbers, `decimal` allows us to specify the total number of digits allowed and the number of digits allowed to the right of the decimal, while real just shows the actual whole number including any fractional values.
+
+# 3.
+2147483647
+
+# 4.
+Timestamp includes the time of day as well as the date, while date is just date.
+
+# 5.
+Not as just TIMESTAMP, but with TIMESTAMP WITH TIME ZONE (or timestamptz) '2004-01-01 HH:MM:SS+timezonedif'
+
+
