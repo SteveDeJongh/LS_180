@@ -717,3 +717,35 @@ FROM products AS p JOIN order_items AS oi
 ON p.id = oi.product_id
 GROUP BY p.product_name
 ORDER BY p.product_name ASC;
+
+# Schema, Data, and SQL
+
+# THe SQL Langauge Practice Problems:
+
+# 1.
+SQL is a special purpose language since it is typically only used to interact with relational databases, and is predominently and declarative language.
+
+# 2.
+DDL - Database defintion Language
+DML - Database manipulation language
+DCL - Database control language
+
+# 3.
+'canoe'
+'a long road'
+'weren''t'
+'"No way!"'
+
+# 4.
+||
+
+# 5.
+LOWER()
+
+SELECT LOWER('ALpacHE'); #=> 'alpache'
+
+# 6.
+t or f
+
+# 7.
+SELECT trunc(4 * pi() * 26.3 ^ 2);
