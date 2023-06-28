@@ -839,3 +839,60 @@ SELECT item, menu_price, ingredient_cost,
        menu_price - ingredient_cost - round(prep_time/60.0 * 13.0, 2) AS profit
   FROM menu_items
   ORDER BY profit DESC;
+
+# Loading Database Dumps Practice Problems
+
+# 1.
+
+psql -d my_database < file_to_import.sql
+
+# or from psql console and connected to correct db.
+
+\i ~/launch-school/ls_180/file_to_import.sql
+
+The file contains sql statements, when imported the statements are executed.
+
+Checks if the films table already exists in my_database
+creates a table called films
+inserts 3 rows (or records) of data.
+
+# 2.
+SELECT * FROM films;
+
+# 3.
+SELECT * FROM films WHERE length(title) < 12;
+
+# 4.
+ALTER TABLE films
+ADD COLUMN director text;
+
+ALTER TABLE films
+ADD COLUMN duration integer;
+
+# 5.
+UPDATE films
+SET director = 'John McTiernan', duration = 132
+WHERE title = 'Die Hard';
+
+UPDATE films
+SET director = 'Michael Curtiz', duration = 102
+WHERE title = 'Casablanca';
+
+UPDATE films
+SET director = 'Francis Ford Coppola', duration = 113
+WHERE title = 'The Conversation';
+
+# 6.
+INSERT INTO films # Can specify columns as well by (title, "year", genre, director, duration)
+VALUES ('1984',	1956, 'scifi', 'Michael Anderson',	90),
+('Tinker Tailor Soldier Spy', 2011, 'espionage', 'Tomas Alfredson', 127),
+('The Birdcage', 1996, 'comedy',	'Mike Nichols',	118);
+
+# 7.
+SELECT title, extract("year" from current_date) - "year" AS age FROM films ORDER BY age ASC;
+
+# 8.
+SELECT title, duration FROM films WHERE duration > 120 ORDER BY duration DESC;
+
+# 9.
+SELECT title FROM films ORDER BY duration DESC LIMIT 1;
