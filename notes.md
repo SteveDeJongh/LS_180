@@ -944,3 +944,68 @@ WHERE email LIKE '%teleworm.us';
 
 # 8.
 DELETE FROM people;
+
+# NOT NULL and Default Values
+
+# 1.
+NULL, which signifies the absense of a value.
+
+# 2.
+ALTER TABLE employees ALTER COLUMN department SET DEFAULT 'unassigned';
+UPDATE employess SET department = 'unassigned' WHERE department IS NULL;
+ALTER TABLE employees ALTER COLUMN department SET NOT NULL;
+
+# 3.
+CREATE TABLE temperatures (
+  date date NOT NULL,
+  low integer NOT NULL,
+  high integer NOT NULL
+);
+
+# 4.
+INSERT INTO temperatures
+VALUES
+ ('2016-03-01' ,34, 43),
+ ('2016-03-02' ,32, 44),
+ ('2016-03-03' ,31, 47),
+ ('2016-03-04' ,33, 42),
+ ('2016-03-05' ,39, 46),
+ ('2016-03-06' ,32, 43),
+ ('2016-03-07' ,29, 32),
+ ('2016-03-08' ,23, 31),
+ ('2016-03-09' ,17, 28);
+
+# 5.
+SELECT date, round((high + low) / 2, 1) AS average
+FROM temperatures 
+WHERE date >= '2016-03-02' AND date < '2016-03-09';
+
+# alternative WHERE syntax
+WHERE BETWEEN '2016-03-02' AND '2016-03-08';
+
+# 6.
+ALTER TABLE temperatures
+ADD COLUMN raindfall integer DEFAULT 0;
+
+# 7.
+UPDATE temperatures
+SET rainfall = ((high + low)/2 - 35)
+WHERE (high+low)/2 > 35;
+
+# 8.
+ALTER TABLE temperatures ALTER COLUMN rainfall TYPE numeric(6,3);
+
+UPDATE temperatures
+SET rainfall = (rainfall * 0.039);
+
+# 9.
+ALTER TABLE temperatures 
+RENAME TO weather;
+
+# 10.
+\d $table_name ( d DESCRIBES the table)
+
+# 11.
+psql -d sql_lesson -t weather --inserts > dump.sql
+
+PostgreSQL creates a file named `dump.sql` with all the table scheme and data for the `weather` table in sql_lesson database. We specify using `INSERTS` instead of the default behavior of COPY FROM stdin.
