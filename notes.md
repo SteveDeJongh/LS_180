@@ -1009,3 +1009,96 @@ RENAME TO weather;
 psql -d sql_lesson -t weather --inserts > dump.sql
 
 PostgreSQL creates a file named `dump.sql` with all the table scheme and data for the `weather` table in sql_lesson database. We specify using `INSERTS` instead of the default behavior of COPY FROM stdin.
+
+# More Constraints
+
+# 1.
+\i ~/Launch-School/ls_180/films2.sql
+
+# or
+
+psql -d sql_lesson < films2.sql
+
+# 2.
+ALTER TABLE films ALTER COLUMN title SET NOT NULL;
+ALTER TABLE films ALTER COLUMN year SET NOT NULL;
+ALTER TABLE films ALTER COLUMN genre SET NOT NULL;
+ALTER TABLE films ALTER COLUMN director SET NOT NULL;
+ALTER TABLE films ALTER COLUMN duration SET NOT NULL;
+
+# 3.
+It adds the nullable value of 'not null' to that column in the details. (in PostgreSQL 14 +)
+not null will be included in that columns modifiers column.
+
+# 4.
+ALTER TABLE films ADD CONSTRAINT title_unique UNIQUE (title);
+
+# 5.
+As this is a table constraint, it's added under indexes as a constraint tittle 'title_unqiue'
+
+Indexes:
+    "title_unique" UNIQUE CONSTRAINT, btree (title)
+
+# 6.
+ALTER TABLE films
+DROP CONSTRAINT title_unique;
+
+# 7.
+ALTER TABLE films
+  ADD CONSTRAINT title_length
+  CHECK (length(title) >= 1);
+
+# 8.
+INSERT INTO films VALUES ('',2012, 'basfs', 'asdad', 12);
+ERROR: new row for relation "films" violates check constraint "title_length"
+
+# 9.
+Check Constrains:
+      "title_length" CHECK (length(tittle::text) >= 1)
+
+# 10.
+ALTER TABLE films
+DROP CONSTRAINT title_length;
+
+# 11.
+ALTER TABLE films
+  ADD CONSTRAINT year_between
+  CHECK ("year" BETWEEN 1900 AND 2100);
+
+# 12.
+Check constraints:
+  "year_between" CHECK (year >= 1900 AND year <= 2100)
+
+# 13.
+ALTER TABLE films
+  ADD CONSTRAINT direct_length
+  CHECK (length(director) >= 3 AND position(' ' in director) > 0);
+
+# 14.
+Check constraints:
+    "direct_length" CHECK (length(director::text) >= 3 AND POSITION((' '::text) IN (director)) > 0)
+
+# 15.
+UPDATE films
+SET director = 'Johnny'
+WHERE title = 'Die Hard';
+
+ERROR:  new row for relation "films" violates check constraint "direct_length"
+DETAIL:  Failing row contains (Die Hard, 1988, action, Johnny, 132).
+
+# 16.
+A) Designate a specific TYPE of data that can be input.
+B) NOT NULL constraint
+C) Check constraint
+
+# 17.
+No, it raises an error when trying to add data to the table and use the default value.
+
+CREATE TABLE shoes (name text, size numeric(3,1) DEFAULT 0);
+ALTER TABLE shoes ADD CONSTRAINT shoe_size CHECK (size BETWEEN 1 AND 15);
+INSERT INTO shoes (name) VALUES ('blue sneakers');
+ERROR:  new row for relation "shoes" violates check constraint "shoe_size"
+DETAIL:  Failing row contains (blue sneakers, 0.0).
+
+# 18.
+\d table name
