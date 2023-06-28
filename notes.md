@@ -896,3 +896,51 @@ SELECT title, duration FROM films WHERE duration > 120 ORDER BY duration DESC;
 
 # 9.
 SELECT title FROM films ORDER BY duration DESC LIMIT 1;
+
+# More Single Table Queries
+
+# 1.
+createdb residents
+
+# 2.
+
+curl - o single_table_queries.sql https://raw.githubusercontent.com/launchschool/sql_course_data/master/sql-and-relational-databases/schema-data-and-sql/more-single-table-queries/residents_with_data.sql
+
+psql -d residents < single_table_queries.sql
+
+# 3.
+SELECT state, count(state) FROM people GROUP BY state ORDER BY count DESC LIMIT 10;
+
+# 4.
+SELECT split_part(email,'@',-1) AS domain, count(id) 
+FROM people 
+GROUP BY domain 
+ORDER BY count DESC;
+
+# Or
+SELECT substr(email, strpos(email, '@') + 1) as domain,
+         COUNT(id)
+  FROM people
+  GROUP BY domain
+  ORDER BY count DESC;
+
+# 5.
+DELETE FROM people
+WHERE id = 3399;
+
+# 6.
+DELETE FROM people
+WHERE state = 'CA';
+
+Good practice to use a select query to ensure the condition works as intended.
+
+SELECT * FROM people
+WHERE state = 'CA';
+
+# 7.
+UPDATE people
+SET given_name = UPPER(given_name)
+WHERE email LIKE '%teleworm.us';
+
+# 8.
+DELETE FROM people;
