@@ -1102,3 +1102,34 @@ DETAIL:  Failing row contains (blue sneakers, 0.0).
 
 # 18.
 \d table name
+
+# Using Keys
+
+# 1.
+CREATE SEQUENCE 'counter';
+
+# 2.
+SELECT nextval('counter');
+
+# 3.
+DROP SEQUENCE counter;
+
+# 4.
+Yes, CREATE SEQUENCE 'even_only' INCREMENT by 2 MINVALUE 2;
+
+# 5.
+'regions_id_seq'
+
+# 6.
+ALTER TABLE films ADD COLUMN id serial PRIMARY KEY;
+
+# 7.
+'Error duplicate key value violates unique constraint 'id_unique'
+Key (id)=(3) already exists.
+
+# 8.
+ERROR: multiple primary keys for table "films" are not allowed.
+
+# 9.
+ALTER TABLE films DROP CONSTRAINT films_pkey;
+
