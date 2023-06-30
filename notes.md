@@ -1264,3 +1264,60 @@ JOIN sections AS s
 JOIN customers AS c
   ON t.customer_id = c.id
 WHERE c.email LIKE 'gennaro.rath@mcdermott.co';
+
+# Using Foreign Keys
+
+# 1.
+curl -O https://raw.githubusercontent.com/launchschool/sql_course_data/master/sql-and-relational-databases/relational-data-and-joins/foreign-keys/orders_products1.sql
+
+createdb foreign-keys
+psql -d foreign-keys < orders_products1.sql
+
+# 2.
+
+ALTER TABLE orders ADD CONSTRAINT orders_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(id);
+
+# 3.
+INSERT INTO products (name)
+VALUES ('small bolt'), ('large bolt');
+
+INSERT INTO orders (quantity, product_id)
+VALUES (10, 1),
+       (25, 1),
+       (15, 2);
+
+# 4.
+SELECT o.quantity AS quantity, p.name AS name FROM orders AS o
+JOIN products AS p ON o.product_id = p.id;
+
+SELECT quantity, name FROM orders INNER JOIN products ON orders.product_id = products.id;
+
+# 5.
+Yes
+
+INSERT INTO orders (quantity) VALUES (1);
+
+# 6.
+ALTER TABLE orders ALTER COLUMN product_id SET NOT NULL;
+
+An error will be raised as the column currently contains null values.
+
+# 7. 
+DELETE FROM orders WHERE ID = 4;
+ALTER TABLE orders ALTER COLUMN product_id SET NOT NULL;
+
+# 8.
+CREATE TABLE reviews (
+  id serial PRIMARY KEY,
+  body text NOT NULL,
+  product_id integer REFERENCES products(id)
+);
+
+# 9.
+
+INSERT INTO reviews (body, product_id)
+VALUES ('a little small', 1), ('very round!', 1), ('could have been smaller', 2);
+
+# 10.
+
+False. As we saw above, foreign key columns allow NULL values. As a result, it is often necessary to use NOT NULL and a foreign key constraint together.
