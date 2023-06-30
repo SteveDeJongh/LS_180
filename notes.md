@@ -1179,3 +1179,20 @@ ORDER BY decade, genre;
 # 11.
 SELECT genre, sum(duration) AS total_duration FROM films GROUP BY genre ORDER BY total_duration, genre ASC;
 
+# Relational Data and JOINs
+
+# Database Diagrams: Levels of schema
+
+# 1.
+Conceptual, logical, and physical.
+
+# 2.
+A conceptual schema is a schema that is mostly concerned with bigger objects and higher level concepts. A high level design focused on idengtifying entities and their relationships.
+
+# 3.
+A physical schema is the details of data types and information pertienent to each table in the database.
+
+# 4.
+One to one
+One to Many
+Many to Many
