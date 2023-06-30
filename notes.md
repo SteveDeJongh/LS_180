@@ -1210,3 +1210,57 @@ Modality is if a relationship is required or not, displayed by a 1 or 0
 
 # 4.
 Crows foot notation.
+
+# Working with Multiple Tables
+
+# 1.
+curl -O https://raw.githubusercontent.com/launchschool/sql_course_data/master/sql-and-relational-databases/relational-data-and-joins/working-with-multiple-tables/theater_full.sql
+
+psql -d sql_lesson2 < theater_full.sql
+
+# 2.
+SELECT count(*) FROM tickets;
+
+# 3.
+SELECT count(DISTINCT customer_id) FROM tickets;
+
+# 4.
+SELECT round( COUNT(DISTINCT tickets.customer_id)
+/ COUNT(DISTINCT customer.id)::decimal * 100, 2)
+AS percent
+FROM customers
+LEFT OUTER JOIN tickets
+ON tickets.customer_id = customers.id;
+
+# 5.
+SELECT events.name, count(tickets.id) AS popularity
+ FROM events 
+ LEFT OUTER JOIN tickets 
+   ON events.id = tickets.event_id 
+ GROUP BY events.name 
+ ORDER BY popularity DESC;
+
+# 6.
+SELECT customers.id, customers.email, count(DISTINCT tickets.event_id) 
+FROM customers
+INNER JOIN tickets
+  ON customers.id = tickets.customer_id
+GROUP BY customers.id
+HAVING count(DISTINCT tickets.event_id) = 3;
+
+# 7.
+SELECT e.name AS event,
+        e.starts_at AS start_at,
+        s.name AS section,
+        se.row AS row,
+        se.number AS seat
+FROM events AS e
+JOIN tickets AS t
+  ON t.event_id = e.id
+JOIN seats AS se
+  ON se.id = t.seat_id
+JOIN sections AS s
+  ON s.id = se.section_id
+JOIN customers AS c
+  ON t.customer_id = c.id
+WHERE c.email LIKE 'gennaro.rath@mcdermott.co';
