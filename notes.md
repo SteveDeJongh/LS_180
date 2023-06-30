@@ -1196,3 +1196,17 @@ A physical schema is the details of data types and information pertienent to eac
 One to one
 One to Many
 Many to Many
+
+# Database Diagrams: Cardinality and Modality
+
+# 1.
+Cardinality is the number of objects on each side of the relationship. One to one, one to many, and many to many.
+
+# 2.
+Modality is if a relationship is required or not, displayed by a 1 or 0
+
+# 3.
+1
+
+# 4.
+Crows foot notation.
