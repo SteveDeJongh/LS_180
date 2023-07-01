@@ -1359,3 +1359,69 @@ Detail: ley (number)=(7204890809) already exists.
 
 # 7.
 CALLS Many(0)-to-one Contact
+
+# Many to many relationships
+
+# 1.
+ALTER TABLE books_categories ALTER COLUMN book_id
+SET NOT NULL;
+
+ALTER TABLE books_categories ALTER COLUMN category_id
+SET NOT NULL;
+
+ALTER TABLE books_categories
+DROP CONSTRAINT "books_categories_book_id_fkey",
+ADD CONSTRAINT "books_categories_book_id_fkey"
+FOREIGN KEY ("book_id")
+REFERENCES books(id)
+ON DELETE CASCADE;
+
+ALTER TABLE books_categories
+DROP CONSTRAINT "books_categories_category_id_fkey",
+ADD CONSTRAINT "books_categories_category_id_fkey"
+FOREIGN KEY ("category_id")
+REFERENCES categories(id)
+ON DELETE CASCADE;
+
+# 2.
+SELECT books.id, books.author, string_agg(categories.name, ', ') FROM books
+INNER JOIN books_categories ON books.id = books_categories.book_id
+INNER JOIN categories ON categories.id = books_categories.category_id
+GROUP BY books.id
+ORDER BY books.id;
+
+# 3.
+
+INSERT INTO categories (name) VALUES ('Space Exploration'), ('Cookbook'), ('South Asia');
+
+ALTER TABLE books ALTER COLUMN title TYPE text;
+
+INSERT INTO books (author, title) VALUES ('Lynn Sherr',	'Sally Ride: America''s First Woman in Space');
+INSERT INTO books_categories VALUES (4,5), (4,1), (4,7);
+
+INSERT INTO books (author, title) VALUES ('Charlotte Brontë',	'Jane Eyre');
+INSERT INTO books_categories VALUES (5,2), (5,4);
+
+INSERT INTO books (author, title) VALUES ('Meeru Dhalwala and Vikram Vij',	'Vij''s: Elegant and Inspired Indian Cuisine');
+INSERT INTO books_categories VALUES	(6,8), (6,1), (6,9);
+
+# 4.
+
+ALTER TABLE books_categories ADD UNIQUE
+(book_id, category_id);
+
+# 5.
+SELECT categories.name AS name, count(books.id) AS book_count, string_agg(books.title, ', ') AS book_titles
+FROM categories
+JOIN books_categories ON categories.id = books_categories.category_id
+JOIN books ON books_categories.book_id = books.id
+GROUP BY categories.name
+ORDER BY categories.name ASC;
+
+# or
+
+SELECT categories.name, count(books.id) as book_count, string_agg(books.title, ', ') AS book_titles
+  FROM books
+    INNER JOIN books_categories ON books.id = books_categories.book_id
+    INNER JOIN categories ON books_categories.category_id = categories.id
+  GROUP BY categories.name ORDER BY categories.name;
