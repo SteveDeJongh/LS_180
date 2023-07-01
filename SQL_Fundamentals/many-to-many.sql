@@ -69,3 +69,66 @@ FULL OUTER JOIN services ON customers_services.service_id = services.id
 WHERE customers_services.id IS NULL;
 
 -- 4
+SELECT services.description FROM customers_services
+RIGHT OUTER JOIN services ON services.id = customers_services.service_id
+WHERE customers_services.id IS NULL;
+
+-- 5
+SELECT customers.name, 
+string_agg(services.description, ', ') AS services 
+FROM customers
+LEFT OUTER JOIN customers_services 
+ON customers.id = customers_services.customer_id
+LEFT OUTER JOIN services 
+ON customers_services.service_id = services.id
+GROUP BY customers.id;
+
+-- FE
+
+SELECT CASE WHEN lag(customers.name)
+         OVER (ORDER BY customers.name) = customers.name THEN NULL
+         ELSE customers.name
+         END AS name,
+       services.description
+FROM customers
+LEFT OUTER JOIN customers_services
+             ON customer_id = customers.id
+LEFT OUTER JOIN services
+             ON services.id = service_id;
+
+-- 6
+SELECT services.description, count(customers_services.id) FROM services
+LEFT OUTER JOIN customers_services ON services.id = customers_services.service_id
+GROUP BY services.description
+HAVING count(customers_services.id) >= 3
+ORDER BY services.description;
+
+-- 7
+SELECT sum(price) as gross FROM services
+JOIN customers_services ON services.id = customers_services.service_id;
+
+-- 8
+INSERT INTO customers (name, payment_token) VALUES ('John Doe', 'EYODHLCN');
+
+INSERT INTO customers_services (customer_id, service_id)
+VALUES (8, 1), (8, 2), (8, 3);
+
+-- 9
+SELECT SUM(price) FROM services
+INNER JOIN customers_services ON services.id = service_id
+WHERE price > 100;
+
+SELECT sum(price) FROM customers
+CROSS JOIN services
+WHERE price > 100;
+
+-- 10
+-- As service_id is the foreign key for services id, it needs to be removed from this table first.
+DELETE FROM customers_services
+WHERE service_id = 7;
+
+DELETE FROM services
+WHERE id = 7;
+
+DELETE FROM customers
+WHERE id = 4;
