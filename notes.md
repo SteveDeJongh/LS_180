@@ -1425,3 +1425,51 @@ SELECT categories.name, count(books.id) as book_count, string_agg(books.title, '
     INNER JOIN books_categories ON books.id = books_categories.book_id
     INNER JOIN categories ON books_categories.category_id = categories.id
   GROUP BY categories.name ORDER BY categories.name;
+
+# Converting a 1:M Relationship to a M:M Relationship
+
+# 1.
+createdb om-to-mm
+psql -d om-to-mm < films7.sql
+
+# 2.
+CREATE TABLE directors_films (
+  id serial PRIMARY KEY,
+  director_id integer REFERENCES directors(id) ON DELETE CASCADE,
+  film_id integer REFERENCES films(id) ON DELETE CASCADE,
+  UNIQUE(director_id, film_id)
+);
+
+# nameing convention for join tables in SQL is to use alphabetical order when consisting of more than 1 word.
+
+# 3.
+INSERT INTO directors_films (director_id, film_id)
+VALUES (1, 1), (2, 2), (3, 3), (4,4), (5,5), (6,6), (3,7), (7,8), (8,9), (4, 10);
+
+# 4.
+ALTER TABLE films DROP COLUMN director_id;
+
+# 5.
+SELECT films.title, directors.name FROM films
+JOIN directors_films ON films.id = directors_films.film_id
+JOIN directors ON directors_films.director_id = directors.id
+ORDER BY films.title ASC;
+
+# 6.
+INSERT INTO films (title, year, genre, duration)
+VALUES ('Fargo', 1996, 'comedy', 98),
+('No Country for Old Men', 2007, 'western', 122),
+('Sin City', 2005, 'Crime', 124),
+('Spy Kids', 2001, 'scifi', 88);
+
+INSERT INTO directors (name)
+VALUES ('Joel Coen'), ('Ethan Coen'), ('Frank Miller'), ('Robert Rodriguez');
+
+INSERT INTO directors_films (film_id, director_id)
+VALUES (11, 9), (12, 9), (12, 10), (13, 11), (13, 12), (14, 12);
+
+# 7.
+SELECT directors.name AS director, count(directors_films.director_id) AS films FROM directors
+INNER JOIN directors_films ON directors_films.director_id = directors.id
+GROUP BY directors.id
+ORDER BY films DESC, director;
