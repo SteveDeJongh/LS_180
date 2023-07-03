@@ -106,8 +106,45 @@ SELECT col_1_name FROM table_name GROUP BY col_1_name HAVING count(col_1_name) >
 `HAVING` conditions are similar to `WHERE` clauses, however `HAVING` works on columns that have been grouped and the results from that grouping.
 The example above display a list of col_1_name from table_name grouped by col_1_name, where the number of rows that have the same column name is greater than 2.
 
-5. Understand how to create and remove constraints, including CHECK constraints
-6. Be familiar with using subqueries
+### Understand how to create and remove constraints, including `CHECK` constraints
+
+We can create constraints either at table creation time, or using `ALTER TABLE` after the fact.
+
+<--! At Table Creation Time -->
+CREATE TABLE table_name (
+  col_1_name col_1_datatype [Constraints,...],
+  col_2_name ...
+  [table constraints]
+);
+
+<--! After Table Creation -->
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name UNIQUE
+(col_name);
+
+<--! Add check constraint -->
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name
+CHECK (length(col_1_name) > 2);
+<--! OR -->
+ALTER TABLE table_name
+ADD CHECK (length(col_1_name) > 2);
+
+<--! Adding a NOT NULL column constraint with special syntax -->
+ALTER TABLE table_name
+  ALTER COLUMN col_1_name
+  SET NOT NULL;
+
+To remove a constraint:
+
+ALTER TABLE table_name
+  DROP CONSTRAINT constraint_name;
+
+### Be familiar with using subqueries
+
+SELECT id FROM table_name WHERE id IN (select id FROM table_name_2 WHERE some_condition);
+
+Subqueries can be used to return a list of values from some other table, that are then use to check against the condition of our initial outer query. Subqueries have special access to several additional expression; `EXISTS`, `IN`, `NOT IN`, `ANY`, `SOME`, and `ALL`. These are especially handy as often times the subquery does not return a single value, therefor rendering the `=` operator useless.
 
 <!-- PostgreSQL -->
 1. Describe what a sequence is and what they are used for.

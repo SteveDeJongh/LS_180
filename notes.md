@@ -1034,7 +1034,7 @@ not null will be included in that columns modifiers column.
 ALTER TABLE films ADD CONSTRAINT title_unique UNIQUE (title);
 
 # 5.
-As this is a table constraint, it's added under indexes as a constraint tittle 'title_unqiue'
+As this is a table constraint, it's added under indexes as a constraint title 'title_unqiue'
 
 Indexes:
     "title_unique" UNIQUE CONSTRAINT, btree (title)
