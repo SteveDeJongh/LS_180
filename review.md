@@ -147,12 +147,100 @@ SELECT id FROM table_name WHERE id IN (select id FROM table_name_2 WHERE some_co
 Subqueries can be used to return a list of values from some other table, that are then use to check against the condition of our initial outer query. Subqueries have special access to several additional expression; `EXISTS`, `IN`, `NOT IN`, `ANY`, `SOME`, and `ALL`. These are especially handy as often times the subquery does not return a single value, therefor rendering the `=` operator useless.
 
 <!-- PostgreSQL -->
-1. Describe what a sequence is and what they are used for.
-2. Create an auto-incrementing column.
-3. Define a default value for a column.
-4. Be able to describe what primary, foreign, natural, and surrogate keys are.
-5. Create and remove CHECK constraints from a column.
-6. Create and remove foreign key constraints from a column.
+### Describe what a sequence is and what they are used for.
+
+A sequence is a kind of relation that maintains a current number and can be used to create a series of numbers. Sequences are automatically created when we use the `SERIAL` constraint, but can also be created manually using `CREATE SEQUENCE`. Sequences can be used numerous applications, but are most often used to create a series for use as default values when inserting data into a table.
+
+### Create an auto-incrementing column. (Sequence)
+
+<-- Will increment sequence by 1 -->
+CREATE SEQUENCE sequence_name;
+
+<--! change default increment value and minimum (starting) value -->
+CREATE SEQUENCE sequence_name INCREMENT by 2 MINVALUE 2;
+
+<--! Using the created squence in a column -->
+CREATE TABLE table_name (
+  id integer DEFAULT nextval('sequence_name')
+);
+
+### Define a default value for a column.
+
+<--! Set Default Value at creation -->
+CREATE TABLE table_name (
+  col_name TYPE DEFAULT 0,
+  ...
+);
+
+<--! Set Default Value after creation -->
+ALTER TABLE table_name
+  ALTER COLUMN col_name
+  SET DEFAULT 0;
+
+### Be able to describe what primary, foreign, natural, and surrogate keys are.
+
+**Primary Key**
+
+A Primary Key is a unique identifier for that specific row. These can be defined within the tables schema, and ensures that the values in this column are unique and not null. To create a Primary Key we specify `PRIMARY KEY` after the TYPE. By specifying the `PRIMARY KEY` we show our intentions, and this automatically adds the `NOT NULL` and `UNIQUE` constraints.
+
+CREATE TABLE table_name (
+  id integer PRIMARY KEY
+);
+
+**Foreign Key**
+
+A foreign key is assigned to a tables column to identify the relationship between a row in the current table and a row in a different table. The value in the current tables column references the row identifier in another table. Foreign keys can also be used in constraints that ensure the value entered in this column either exists or doesn’t in a different table, this is called referential integrity and is one the major reasons for using foreign key constraints.
+
+<--! Creating a table with a Foreign Key -->
+CREATE TABLE table_name (
+  id serial PRIMARY KEY,
+  other_table_id integer REFERENCES other_table_name(other_table_col)
+);
+
+<--! Adding a Foreign Key constraint to an existing column -->
+ALTER TABLE table_name
+  ADD CONSTRAINT constraint_name FOREIGN KEY (curr_table_column_name) REFERENCES other_table_name(other_table_col);
+
+**Natural Key**
+
+A Natural Key is a value that already exists within the input data. These are not created keys but rather data that might appear to be unique and a possible unique identifier. These values should be unique and not change relations, something that rarely occurs with input data.
+
+**Surrogate Key**
+
+A surrogate key is a value that can be used to identify a row of data. The keys are most often created using a `serial` type for the column along with a `unique` constraint. `serial` creates an auto incrementing sequence of numbers used as the value that is `NOT NULL`. There is an overlap between surrogate keys and primary keys, with the main difference being the identifying intention in the table schema.
+
+CREATE TABLE table_name (
+  surr_id serial UNIQUE
+);
+
+### Create and remove CHECK constraints from a column.
+
+<--! Adding -->
+<--! When createing a table -->
+CREATE TABLE table_name (
+  col_1_name text CHECK (col_1_name = 'col 1 text'),
+  ...
+);
+
+<--! After table creation -->
+ALTER TABLE table_name
+  ADD CONSTRAINT check_constraint_name
+  CHECK (expression);
+
+<--! Removing -->
+ALTER TABLE table_name DROP CONSTRAINT check_name;
+
+
+### Create and remove foreign key constraints from a column.
+
+<--! At Table Creation -->
+CREATE TABLE table_name (
+  id serial PRIMARY KEY,
+  col_2 integer REFERENCES other_table_name(other_table_col_name)
+);
+
+<--! After Table Creation -->
+ALTER TABLE table_name ADD CONSTRAINT constraint_name FOREIGN KEY(curr_table_col_name) REFERENCES reference_table_name(reference_table_col_name);
 
 <!-- Database Diagrams -->
 1. Talk about the different levels of schema.
