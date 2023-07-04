@@ -135,6 +135,12 @@ ALTER TABLE table_name
   ALTER COLUMN col_1_name
   SET NOT NULL;
 
+<--! Add unique table constraint -->
+ALTER TABLE table_name ADD UNIQUE (col1_name, col2_name, ...);
+
+<--! Add unique table constraint to column -->
+ALTER TABLE table_name ADD UNIQUE (col_name);
+
 To remove a constraint:
 
 ALTER TABLE table_name
@@ -265,4 +271,17 @@ A line that splits into three lines when connecting to an entity represents a MA
 
 **Modality:** Modality refers to wether or not a relationship is required. This can be done using foreign key constraints, indicating that if a value is to be used in 1 table, it must be present in the other table. In crows foot notation, this is identified as a (1) if it is required, or a (0) if the relationship is optional.
 
+### Relationships (1:1, 1:M, M:M)
+
+**One-To-One**
+
+One-to-one relationships are very rare in the real world. This would be a situation where a tables primary key is the same for another row of data in a different table and uses the same primary key. The construct of a one-to-one relationship is very similar to a one-to-many.
+
+**One-To-Many**
+
+A One-to-many relationship is when a reference to one entity can be used multiple times by another entity. We do this by adding a foreign key to the many side which typically would reference the primary key of the one side. With certain applications this can remove repeated data, and avoid instances of update anomaly, insertion anomaly, and deletion anomaly.
+
+**Many-To-Many**
+
 4. Be able to draw database diagrams using crow's foot notation.
+
