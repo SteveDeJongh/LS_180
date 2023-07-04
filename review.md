@@ -243,6 +243,26 @@ CREATE TABLE table_name (
 ALTER TABLE table_name ADD CONSTRAINT constraint_name FOREIGN KEY(curr_table_col_name) REFERENCES reference_table_name(reference_table_col_name);
 
 <!-- Database Diagrams -->
-1. Talk about the different levels of schema.
-2. Define cardinality and modality.
-3. Be able to draw database diagrams using crow's foot notation.
+### Talk about the different levels of schema.
+
+**Conceptual:** High Level design focused on identifying entities and their relationships. Primarily focused on bigger objects and higher-level concepts. Is primarily concerned with data in a very abstract way, and **not** at all with how that data and relationships between objects are going to be stored within the database. Here we are not concerned with the number of tables required, just the relationships between entities.
+
+**Logical:** A combination of the two. A logical schema will often contain a list of all the data and dataypes, but its often done in such a way that it isn’t specific to an actual database.
+
+**Physical:** A low level database specific design focused on implementation. Database specific implementation of a conceptual model. Includes the different attributes an entity can hold along with the various datatypes.
+
+### Entity-relationship diagram (or model) ERD
+
+A visual representation of a conceptual schema. Entities are represented in rectangles, with the relationship between the entities represented by lines.
+
+A line that connects directly to a entity in a single line represents a ONE end to a connection.
+
+A line that splits into three lines when connecting to an entity represents a MANY end to a connection.
+
+### Define cardinality and modality.
+
+**Cardinality:** Cardinality defines the number of entities on either side of the relationship between two tables. This refers to the one-to-one, one-to-many, and many-to-many relationships tables can have.
+
+**Modality:** Modality refers to wether or not a relationship is required. This can be done using foreign key constraints, indicating that if a value is to be used in 1 table, it must be present in the other table. In crows foot notation, this is identified as a (1) if it is required, or a (0) if the relationship is optional.
+
+4. Be able to draw database diagrams using crow's foot notation.
