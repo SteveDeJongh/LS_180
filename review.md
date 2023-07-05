@@ -195,7 +195,7 @@ CREATE TABLE table_name (
 
 **Foreign Key**
 
-A foreign key is assigned to a tables column to identify the relationship between a row in the current table and a row in a different table. The value in the current tables column references the row identifier in another table. Foreign keys can also be used in constraints that ensure the value entered in this column either exists or doesn’t in a different table, this is called referential integrity and is one the major reasons for using foreign key constraints.
+A foreign key is assigned to a tables column to identify the relationship between a row in the current table and a row in a different table. The value in the current tables column references the row identifier in another table. Foreign keys can also be used in constraints that ensure the value entered in this column either exists or doesn’t in a different table, this is called referential integrity and is one the major reasons for using foreign key constraints. Referential integrity refers to when data from one field in a table’s row must reference data that exists in another table. We can designate foreign key constraints and use the ON DELETE CASCADE clause to ensure that if a reference entity from one table is deleted, the reference entities in another table are also removed.
 
 <--! Creating a table with a Foreign Key -->
 CREATE TABLE table_name (
