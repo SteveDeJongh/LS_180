@@ -282,6 +282,8 @@ One-to-one relationships are very rare in the real world. This would be a situat
 A One-to-many relationship is when a reference to one entity can be used multiple times by another entity. We do this by adding a foreign key to the many side which typically would reference the primary key of the one side. With certain applications this can remove repeated data, and avoid instances of update anomaly, insertion anomaly, and deletion anomaly.
 
 **Many-To-Many**
+A many-to-many relationship is one which two both tables have entities that can relate to one (or more than one) entity from the 2nd table. This is done by using a join table, where we track the pairs of entities.
+
+When naming these join tables, it is convention to use alphabetical order of the joined tables names.
 
 4. Be able to draw database diagrams using crow's foot notation.
-
