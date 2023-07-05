@@ -157,6 +157,21 @@ Subqueries can be used to return a list of values from some other table, that ar
 
 A sequence is a kind of relation that maintains a current number and can be used to create a series of numbers. Sequences are automatically created when we use the `SERIAL` constraint, but can also be created manually using `CREATE SEQUENCE`. Sequences can be used numerous applications, but are most often used to create a series for use as default values when inserting data into a table.
 
+### NULL
+
+SELECT NULL IS NULL;
+
+SELECT NULL IS NOT NULL;
+=> f
+
+### Loading Database Dumps (PSQL)
+
+psql -d database_name < file_name.sql
+
+<--! Or from within a psql session -->
+\c database_name
+\i ~/some/files/to_import.sql
+
 ### Create an auto-incrementing column. (Sequence)
 
 <-- Will increment sequence by 1 -->
