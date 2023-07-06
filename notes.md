@@ -1106,7 +1106,7 @@ DETAIL:  Failing row contains (blue sneakers, 0.0).
 # Using Keys
 
 # 1.
-CREATE SEQUENCE 'counter';
+CREATE SEQUENCE counter;
 
 # 2.
 SELECT nextval('counter');

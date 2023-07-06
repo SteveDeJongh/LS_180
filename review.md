@@ -264,6 +264,16 @@ CREATE TABLE table_name (
 ALTER TABLE table_name ADD CONSTRAINT constraint_name FOREIGN KEY(curr_table_col_name) REFERENCES reference_table_name(reference_table_col_name);
 
 <!-- Database Diagrams -->
+### Relational Databases and Relationships
+
+A database is said to be a relational database when the data they contain has a predetermined and defined set of relations. Relations in the scheme of databases are known as tables.
+
+A relationship within a database defines the connection between two rows of data within different tables, and how they are connected.
+
+Relation = More often than not a Table, but can also refer to a sequence and/or views.
+
+Relationship = Foreign keys and the columns they reference.
+
 ### Talk about the different levels of schema.
 
 **Conceptual:** High Level design focused on identifying entities and their relationships. Primarily focused on bigger objects and higher-level concepts. Is primarily concerned with data in a very abstract way, and **not** at all with how that data and relationships between objects are going to be stored within the database. Here we are not concerned with the number of tables required, just the relationships between entities.
